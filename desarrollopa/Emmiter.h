@@ -10,7 +10,7 @@ private:
 	EmmiterConfiguration configuracion;
 	vector<Solid*> particulasGeneradas;
 	std::chrono::milliseconds initialMilliseconds;
-	long long lastUpdatedTime;
+	long lastUpdatedTime;
 public:
 	Emmiter() {
 		this->configuracion = EmmiterConfiguration();
