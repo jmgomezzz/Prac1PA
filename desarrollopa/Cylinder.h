@@ -31,5 +31,6 @@ public:
 	void SetStacks(float stacksToSet) { this->stacks = stacksToSet; }
 
 	void Render();
+	Solid* Clone() override;
 };
 

@@ -10,3 +10,6 @@ void Toroid::Render()
 	glutSolidTorus(this->GetIRad(), this->GetERad(), this->GetFaces(), this->GetRings());
 	glPopMatrix();
 }
+Solid* Toroid::Clone() {
+	return new Toroid(*this);
+}

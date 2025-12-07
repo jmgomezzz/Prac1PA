@@ -4,20 +4,17 @@
 class Cube : public Solid
 {
 private:
-
-	float size;
+    float size;
 
 public:
+    Cube() : Solid()
+    {
+        this->size = 0.4;
+    }
 
-	Cube():Solid()
-	{
-		this->size = 0.4;
-
-	}
-
-	inline float GetSize() { return this->size; }
-	
-	void SetSize(float sizeToSet) { this->size = sizeToSet; }
-	void Render();
+    inline float GetSize() { return this->size; }
+    void SetSize(float sizeToSet) { this->size = sizeToSet; }
+    void Render() override;
+    Solid* Clone() override;
 };
 

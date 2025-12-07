@@ -10,3 +10,6 @@ void Teapot::Render()
 	glutSolidTeapot(this->GetSize());
 	glPopMatrix();
 }
+Solid* Teapot::Clone() {
+	return new Teapot(*this);
+}

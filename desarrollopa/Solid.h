@@ -37,7 +37,8 @@ public:
 	void SetColor(Color colorToSet) { this->color = colorToSet; }
 	void SetOrientationSpeed(Vector3D orientationSpeedToSet) { this->orientationSpeed = orientationSpeedToSet; }
 	void SetSpeed(Vector3D speedToSet) { this->speed = speedToSet; }
-
+	
+	virtual Solid* Clone() = 0;
 	virtual void Render() = 0;
 	virtual void Update();
 };

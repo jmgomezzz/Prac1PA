@@ -26,5 +26,6 @@ public:
 	void SetRings(float ringsToSet) { this->rings = ringsToSet; }
 
 	void Render();
+	Solid* Clone() override;
 };
 
