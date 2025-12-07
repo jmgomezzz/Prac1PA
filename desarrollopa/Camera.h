@@ -9,5 +9,6 @@ public:
 		this->posicion = pos;
 	}
 	void Render();
+	Solid* Clone() override;
 };
 
