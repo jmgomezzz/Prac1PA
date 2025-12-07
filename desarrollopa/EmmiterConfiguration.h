@@ -9,7 +9,7 @@ private:
 	Vector3D aceleracion;
 	int tiempoVida;
 public:
-	EmmiterConfiguration(int mP=15,int pE=25,Solid*part,Vector3D a=Vector3D(),int t=10000){
+	EmmiterConfiguration(int mP=15,int pE=25,Solid*part = nullptr,Vector3D a=Vector3D(),int t=10000){
 		this->maxParticulas =mP;
 		this->periodoEmision =pE;
 		this->particula = part;
