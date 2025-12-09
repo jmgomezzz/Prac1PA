@@ -70,7 +70,7 @@ void idle()
 
 void keyPressed(unsigned char key, int px, int py)
 {
-    game.ProcessKeyPressed(key,px,py);
+    game.ProcessKeyPressed(key, px, py);
     glutPostRedisplay();
 }
 
@@ -134,4 +134,3 @@ int main(int argc, char** argv)
     cout << "Pulse F11 para activar/desactivar el modo de pantalla completa." << endl;
     glutMainLoop();
 }
-

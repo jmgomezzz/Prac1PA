@@ -1,31 +1,50 @@
 #include "Game.h"
 #include <iostream>
-#include <stdio.h>      
-#include <stdlib.h>     
-#include <time.h>  
 
-void Game::Init()
-{
-	cout << "[GAME] Init..." << endl;
-	escena.AddGameObject(&teapot);
-	escena.AddGameObject(&cube);
-	escena.AddGameObject(&cuboid);
-	escena.AddGameObject(&sphere);
-	escena.AddGameObject(&cylinder);
-	escena.AddGameObject(&toroid);
+// En Game.cpp
+void Game::Init() {
+	this->particulaBase = new Cube();
+	// Dale un color base visible (aunque el randomizador lo cambie luego)
+	this->particulaBase->SetColor(Color(1.0, 0.0, 0.0));
+
+	// Configuración potente: 300 partículas, muy rápido
+	EmmiterConfiguration config(300, 10, this->particulaBase, Vector3D(0.0, 7.0, 0.0), 5000);
+
+	this->emisor = new Emmiter();
+	this->emisor->SetConfiguration(config);
+
+	// POSICIÓN VISIBLE: En el centro (0,0) y profundidad (-3.0) igual que la tetera
+	this->emisor->SetCoordinates(Vector3D(0.0, 0.0, -3.0));
 }
 
-void Game::Render()
-{
-	//cout << "[GAME] Render..." << endl;
-	this->escena.Render();
-	
+void Game::Render() {
+	// Decoración
+	this->teapot.Render();
+	this->cube.Render();
+	this->sphere.Render();
+	this->cuboid.Render();
+	this->cylinder.Render();
+	this->toroid.Render();
+
+	// Emisor
+	if (this->emisor != nullptr) {
+		this->emisor->Render();
+	}
 }
 
-void Game::Update()
-{
-	//cout << "[GAME] Update..." << endl;
-	this->escena.Update();
+void Game::Update() {
+	// Decoración
+	this->teapot.Update();
+	this->cube.Update();
+	this->sphere.Update();
+	this->cuboid.Update();
+	this->cylinder.Update();
+	this->toroid.Update();
+
+	// Emisor
+	if (this->emisor != nullptr) {
+		this->emisor->Update();
+	}
 }
 
 void Game::ProcessKeyPressed(unsigned char key, int px, int py)
