@@ -1,49 +1,48 @@
 #include "Game.h"
 #include <iostream>
 
-// En Game.cpp
 void Game::Init() {
 	this->particulaBase = new Cube();
-	// Dale un color base visible (aunque el randomizador lo cambie luego)
+	//Le damos un color base aunque cammbie luego
+	((Cube*)this->particulaBase)->SetSize(0.1f);
+
 	this->particulaBase->SetColor(Color(1.0, 0.0, 0.0));
+	//Cambiamos tamaño de los cubos
 
-	// Configuración potente: 300 partículas, muy rápido
-	EmmiterConfiguration config(300, 10, this->particulaBase, Vector3D(0.0, 7.0, 0.0), 5000);
+	//Config
+	EmmiterConfiguration config(300, 0, this->particulaBase, Vector3D(0.00, 0.02, 0.00), 750);
 
-	this->emisor = new Emmiter();
-	this->emisor->SetConfiguration(config);
 
-	// POSICIÓN VISIBLE: En el centro (0,0) y profundidad (-3.0) igual que la tetera
-	this->emisor->SetCoordinates(Vector3D(0.0, 0.0, -3.0));
+	//Varios emisores para dar efecto de fuego
+	for (int i = 0; i < 3; i++) {
+		this->emisores[i] = new Emmiter();
+		this->emisores[i]->SetConfiguration(config);
+	}
+
+	//Emisor en el centro y cercanos
+	this->emisores[0]->SetCoordinates(Vector3D(-0.3, -2.0, -5.0));
+	this->emisores[1]->SetCoordinates(Vector3D(0.0, -2.0, -5.0));
+	this->emisores[2]->SetCoordinates(Vector3D(0.3, -2.0, -5.0));
 }
 
 void Game::Render() {
-	// Decoración
-	this->teapot.Render();
-	this->cube.Render();
-	this->sphere.Render();
-	this->cuboid.Render();
-	this->cylinder.Render();
-	this->toroid.Render();
 
 	// Emisor
-	if (this->emisor != nullptr) {
-		this->emisor->Render();
+	for (int i = 0; i < 3; i++) {
+		if (this->emisores[i] != nullptr) {
+			this->emisores[i]->Render();
+		}
 	}
 }
 
 void Game::Update() {
-	// Decoración
-	this->teapot.Update();
-	this->cube.Update();
-	this->sphere.Update();
-	this->cuboid.Update();
-	this->cylinder.Update();
-	this->toroid.Update();
+
 
 	// Emisor
-	if (this->emisor != nullptr) {
-		this->emisor->Update();
+	for (int i = 0; i < 3; i++) {
+		if (this->emisores[i] != nullptr) {
+			this->emisores[i]->Update();
+		}
 	}
 }
 

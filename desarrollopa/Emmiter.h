@@ -3,14 +3,16 @@
 #include <vector>
 #include "EmmiterConfiguration.h"
 #include <chrono>
+#include "Particle.h"
 
 using namespace std;
+
 
 class Emmiter : public Solid
 {
 private:
 	EmmiterConfiguration configuracion;
-	vector<Solid*> particulasGeneradas;
+	vector<Particle*> particulasGeneradas;
 	std::chrono::milliseconds initialMilliseconds;
 	long lastUpdatedTime;
 

@@ -62,10 +62,13 @@ void reshape(GLsizei width, GLsizei height)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void idle()
+// CAMBIO: Función timer para limitar a 60 FPS
+void timer(int value)
 {
     game.Update();
     glutPostRedisplay();
+    // 1000 ms / 60 fps = ~16 ms. Se llama a sí misma recursivamente.
+    glutTimerFunc(1000 / 60, timer, 0);
 }
 
 void keyPressed(unsigned char key, int px, int py)
@@ -125,7 +128,10 @@ int main(int argc, char** argv)
     glutSpecialFunc(specialKey);                                    // tratamiento del evento de tecla especial pulsada
     glutMotionFunc(mouseMoved);                                     // tratamiento del evento de movimiento del ratón
     glutMouseFunc(mouseClicked);                                    // tratamiento del evento de clic del ratón
-    glutIdleFunc(idle);                                             // para cuando no hay eventos que tratar         
+
+    // CAMBIO: Usamos timer en vez de idle
+    // glutIdleFunc(idle);                                             
+    glutTimerFunc(0, timer, 0);                                     // Iniciamos el temporizador
 
     cout << "Iniciando gráficos..." << endl;
     initGraphics();                                                 // Iniciamos OpenGL

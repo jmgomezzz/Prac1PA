@@ -14,7 +14,7 @@ Emmiter::Emmiter() {
 	this->configuracion = EmmiterConfiguration();
 	this->particulasGeneradas = {};
 	this->initialMilliseconds = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	this->lastUpdatedTime = 0;
+	this->lastUpdatedTime = -999999;
 	srand(static_cast<unsigned int>(std::time(nullptr)));
 }
 
@@ -29,62 +29,74 @@ Solid* Emmiter::Clone() {
 }
 
 void Emmiter::Update() {
+	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
+	long currentMillis = currentTime.count() - this->initialMilliseconds.count();
+
+	//Actualizamos las partículas existentes
 	for (int i = 0; i < particulasGeneradas.size(); i++) {
-		this->particulasGeneradas[i]->Update();
+		particulasGeneradas[i]->Update();
+
+		// Comprobamos si ha muerto por tiempo
+		if ((currentMillis - particulasGeneradas[i]->GetTiempoCreacion()) > this->configuracion.GetTiempoVida()) {
+
+			//Eliminamos la particula
+			delete particulasGeneradas[i];
+
+			particulasGeneradas.erase(particulasGeneradas.begin() + i);
+			i--;
+		}
 	}
 
-	milliseconds currentTime = duration_cast<milliseconds>(system_clock::now().time_since_epoch());
-	long elapsedTime = currentTime.count() - this->initialMilliseconds.count();
+	//Emisión
+	if ((currentMillis - this->lastUpdatedTime) >= this->configuracion.GetPeriodoEmision()) {
 
-	if ((elapsedTime - this->lastUpdatedTime) >= this->configuracion.GetPeriodoEmision()) {
+		if (this->particulasGeneradas.size() < this->configuracion.GetMaxParticulas()) {
 
-		if (this->particulasGeneradas.size() >= this->configuracion.GetMaxParticulas()) {
-			delete this->particulasGeneradas[0];
-			this->particulasGeneradas.erase(this->particulasGeneradas.begin());
+			if (this->configuracion.GetParticula() != nullptr) {
+				Solid* newSolid = this->configuracion.GetParticula()->Clone();
+
+				//Ajustamos la logica para que parezca fuego
+				Vector3D emitterPos = this->GetCoord();
+				float jitter = 0.1f;
+
+				newSolid->SetCoordinates(Vector3D(
+					emitterPos.GetX() + RandomFloat(-jitter, jitter),
+					emitterPos.GetY() + RandomFloat(-jitter, jitter),
+					emitterPos.GetZ() + RandomFloat(-jitter, jitter)
+				));
+
+				Vector3D baseForce = this->configuracion.GetAceleracion();
+				float spread = 0.035f; //Muy poco spread para fuego
+
+				newSolid->SetSpeed(Vector3D(
+					baseForce.GetX() + RandomFloat(-spread / 2.0f, spread / 2.0f),
+					baseForce.GetY() + RandomFloat(0.0f, 0.05f),
+					baseForce.GetZ() + RandomFloat(-spread / 2.0f, spread / 2.0f)
+				));
+
+				newSolid->SetRot(Orientation(Vector3D(
+					RandomFloat(0.0f, 90.0f),
+					RandomFloat(0.0f, 90.0f),
+					RandomFloat(0.0f, 90.0f)
+				)));
+
+				newSolid->SetColor(Color(
+					RandomFloat(0.8f, 1.0f),
+					RandomFloat(0.0f, 0.6f),
+					0.0f
+				));
+
+				newSolid->SetOrientationSpeed(Vector3D(
+					RandomFloat(-5.0f, 5.0f),
+					RandomFloat(-5.0f, 5.0f),
+					RandomFloat(-5.0f, 5.0f)
+				));
+
+				//Crea la particula y la añade al vector
+				Particle* newParticle = new Particle(newSolid, currentMillis);
+				this->particulasGeneradas.push_back(newParticle);
+			}
 		}
-
-		if (this->configuracion.GetParticula() != nullptr) {
-			Solid* newParticle = this->configuracion.GetParticula()->Clone();
-
-			Vector3D emitterPos = this->GetCoord();
-			float jitter = 0.5f;
-
-
-			newParticle->SetCoordinates(Vector3D(
-				emitterPos.GetX() + RandomFloat(-jitter, jitter),
-				emitterPos.GetY() + RandomFloat(-jitter, jitter),
-				emitterPos.GetZ() + RandomFloat(-jitter, jitter)
-			));
-
-			Vector3D baseForce = this->configuracion.GetAceleracion();
-			float spread = 2.0f;
-
-			newParticle->SetSpeed(Vector3D(
-				baseForce.GetX() + RandomFloat(-spread, spread),
-				baseForce.GetY() + RandomFloat(0.0f, 2.0f),
-				baseForce.GetZ() + RandomFloat(-spread, spread)
-			));
-
-			newParticle->SetRot(Orientation(Vector3D(
-				RandomFloat(0.0f, 90.0f),
-				RandomFloat(0.0f, 90.0f),
-				RandomFloat(0.0f, 90.0f)
-			)));
-
-			newParticle->SetColor(Color(
-				RandomFloat(0.2f, 1.0f),
-				RandomFloat(0.2f, 1.0f),
-				RandomFloat(0.2f, 1.0f)
-			));
-
-			newParticle->SetOrientationSpeed(Vector3D(
-				RandomFloat(-5.0f, 5.0f),
-				RandomFloat(-5.0f, 5.0f),
-				RandomFloat(-5.0f, 5.0f)
-			));
-
-			this->particulasGeneradas.push_back(newParticle);
-		}
-		this->lastUpdatedTime = elapsedTime;
+		this->lastUpdatedTime = currentMillis;
 	}
 }

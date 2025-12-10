@@ -9,7 +9,7 @@ public:
 	Color() :R(0.0), G(0.0), B(0.0) {
 
 	}
-	Color(float red, float blue, float green) {
+	Color(float red, float green, float blue) {
 		this->R = red;
 		this->G = green;
 		this->B = blue;

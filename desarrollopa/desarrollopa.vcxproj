@@ -137,6 +137,7 @@
     <ClCompile Include="EmmiterConfiguration.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Orientation.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Solid.cpp" />
     <ClCompile Include="Sphere.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="EmmiterConfiguration.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Orientation.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Solid.h" />
     <ClInclude Include="Sphere.h" />
