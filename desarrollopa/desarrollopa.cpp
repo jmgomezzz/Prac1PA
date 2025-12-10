@@ -18,6 +18,12 @@ const GLclampf GREEN = 0.5;
 const GLclampf BLUE = 0.5;
 const GLclampf ALPHA = 1.0;
 
+//Constantes para bllqueo de fps
+const int FPS = 60;
+const int DURATION = 1000 / FPS;
+
+
+
 bool fullScreenMode = false;
 
 /////////////////////////////////////////////////////////////////
@@ -62,10 +68,11 @@ void reshape(GLsizei width, GLsizei height)
     glMatrixMode(GL_MODELVIEW);
 }
 
-void idle()
+void timer(int value)
 {
     game.Update();
     glutPostRedisplay();
+	glutTimerFunc(DURATION, timer, 0); //Vuelve a llamar al timer después de DURATION milisegundos
 }
 
 void keyPressed(unsigned char key, int px, int py)
@@ -125,7 +132,7 @@ int main(int argc, char** argv)
     glutSpecialFunc(specialKey);                                    // tratamiento del evento de tecla especial pulsada
     glutMotionFunc(mouseMoved);                                     // tratamiento del evento de movimiento del ratón
     glutMouseFunc(mouseClicked);                                    // tratamiento del evento de clic del ratón
-    glutIdleFunc(idle);                                             // para cuando no hay eventos que tratar         
+	glutTimerFunc(0, timer, 0);                                     // cambiamos idle por un timer para controlar los fps        
 
     cout << "Iniciando gráficos..." << endl;
     initGraphics();                                                 // Iniciamos OpenGL

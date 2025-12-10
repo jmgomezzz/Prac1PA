@@ -4,15 +4,30 @@
 #include <stdlib.h>     
 #include <time.h>  
 
+
+// Constructor
+Game::Game() : emisor(nullptr) {}
+
+
 void Game::Init()
 {
-	cout << "[GAME] Init..." << endl;
-	escena.AddGameObject(&teapot);
-	escena.AddGameObject(&cube);
-	escena.AddGameObject(&cuboid);
-	escena.AddGameObject(&sphere);
-	escena.AddGameObject(&cylinder);
-	escena.AddGameObject(&toroid);
+
+	srand(time(NULL)); //Semilla para aleatorios
+
+	//EMSIOR DE PARTICULAS
+	//Creamos el emisor
+	emisor = new Emmiter(&escena);
+	emisor->SetCoordinates(Vector3D(0.0, 0.0, 0.0));
+
+	//Propiedades de las parts
+	EmmiterConfiguration& config = emisor->GetConfiguracion();
+	config.SetParticula(&sphere);
+	config.SetMaxParticulas(200);
+	config.SetPeriodoEmision(2000);
+	//config.SetTiempoVida(8000); por ahora no lo usamos
+
+	//Añadimos el emisor
+	escena.AddGameObject(emisor);
 }
 
 void Game::Render()

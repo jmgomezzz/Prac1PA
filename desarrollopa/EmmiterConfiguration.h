@@ -9,9 +9,9 @@ private:
 	Vector3D aceleracion;
 	int tiempoVida;
 public:
-	EmmiterConfiguration(int mP=15,int pE=25,Solid*part = nullptr,Vector3D a=Vector3D(),int t=10000){
-		this->maxParticulas =mP;
-		this->periodoEmision =pE;
+	EmmiterConfiguration(int mP = 15, int pE = 25, Solid* part = nullptr, Vector3D a = Vector3D(), int t = 10000) {
+		this->maxParticulas = mP;
+		this->periodoEmision = pE;
 		this->particula = part;
 		this->aceleracion = a;
 		this->tiempoVida = t;
@@ -25,8 +25,7 @@ public:
 	void SetMaxParticulas(int maxParticulasToSet) { this->maxParticulas = maxParticulasToSet; }
 	void SetPeriodoEmision(int periodoEmisionToSet) { this->periodoEmision = periodoEmisionToSet; }
 	void SetParticula(Solid* particulaToSet) { this->particula = particulaToSet; }
-	void SetParticula(Vector3D aceleracionToSet) { this->aceleracion = aceleracionToSet; }
+	void SetAceleracion(Vector3D aceleracionToSet) { this->aceleracion = aceleracionToSet; }
 	void SetTiempoVida(int tiempoVidaToSet) { this->tiempoVida = tiempoVidaToSet; }
 
 };
-

@@ -7,6 +7,7 @@
 #include "Scene.h"
 #include "Toroid.h"
 #include "Cylinder.h"
+#include "Emmiter.h"
 using namespace std;
 
 class Game
@@ -19,36 +20,11 @@ private:
 	Sphere sphere;
 	Cylinder cylinder;
 	Toroid toroid;
+	Emmiter* emisor;
 
 public:
 
-	Game(){
-		teapot.SetCoordinates(Vector3D(-1.6, 1.3, -3.0));
-		teapot.SetColor(Color(0.2f, 0.4f, 0.6f));
-		teapot.SetOrientationSpeed(Vector3D(1.0, 3.0, 0.0));
-
-		cube.SetCoordinates(Vector3D(1.6, 1.3, -3.0));
-		cube.SetColor(Color(0.8f, 0.7f, 0.4f));
-		cube.SetOrientationSpeed(Vector3D(0.0, 2.0, 0.0));
-
-		sphere.SetCoordinates(Vector3D(1.6, -1.3, -3.0));
-		sphere.SetColor(Color(0.1f, 0.5f, 0.2f));
-		sphere.SetOrientationSpeed(Vector3D(0.1, 0.0, 0.1));
-		sphere.SetSpeed(Vector3D(0.01, 0.0, 0.0));
-
-		cuboid.SetCoordinates(Vector3D(-1.6, -1.3, -3.0));
-		cuboid.SetColor(Color(0.3f, 0.1f, 0.3f));
-		cuboid.SetOrientationSpeed(Vector3D(0.0, 0.2, 0.1));
-
-		cylinder.SetCoordinates(Vector3D(-1.0, 0.2, -3.0));
-		cylinder.SetColor(Color(0.6f, 1.0f, 0.5f));
-		cylinder.SetOrientationSpeed(Vector3D(2.0, 0.3, 0.0));
-
-		toroid.SetCoordinates(Vector3D(1.0, 0.5, -3.0));
-		toroid.SetColor(Color(0.7f, 0.3f, 1.0f));
-		toroid.SetOrientationSpeed(Vector3D(0.01, 0.01, 0.01));
-		toroid.SetSpeed(Vector3D(0.0, 0.01, 0.0));
-	}
+	Game(); //Podemos borrar todos los objetos ya que no los vamos a usar como objetos fijos
 
 
 	void Init();
