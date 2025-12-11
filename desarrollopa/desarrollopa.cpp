@@ -62,7 +62,6 @@ void reshape(GLsizei width, GLsizei height)
     glMatrixMode(GL_MODELVIEW);
 }
 
-// CAMBIO: Función timer para limitar a 60 FPS
 void timer(int value)
 {
     game.Update();
